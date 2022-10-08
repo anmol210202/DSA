@@ -44,7 +44,7 @@ public:
                 }
             }
             ans+=v[i];
-            cout<<v[i]<<endl;
+            // cout<<v[i]<<endl;
         }
         return ans;
     }
