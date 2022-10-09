@@ -13,20 +13,22 @@ class Solution {
 public:
     vector<int> v;
     
-    bool isPairSum(vector<int> &A, int X)
+int isPairSum(vector<int>A, int X)
 {
-        int N =A.size();
-    for (int i = 0; i < N; i++) {
-        for (int j = 0; j < N; j++) {
-            if (i == j)
-                continue;
-            if (A[i] + A[j] == X)
-                return true;
-            if (A[i] + A[j] > X)
-                break;
+    int N=A.size();
+    int i = 0;
+    int j = N - 1;
+ 
+    while (i < j) {
+        if (A[i] + A[j] == X){
+            return 1;
         }
+        else if (A[i] + A[j] < X)
+            i++;
+        else
+            j--;
     }
-    return false;
+    return 0;
 }
     
     void mk(TreeNode* root ){
@@ -41,10 +43,7 @@ public:
     
     bool findTarget(TreeNode* root, int k) {
         mk(root);
-        // for(auto e:v){
-        //     cout<<e<<" ";
-        // }
         sort(v.begin(),v.end());
-        return isPairSum(v,k);
+        return (bool)isPairSum(v,k);
     }
 };
