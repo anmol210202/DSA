@@ -2,8 +2,7 @@ class Solution {
 public:
     string makeGood(string s) {
         stack<char> sta;
-        int siz = s.size();
-        for(int i=0; i<siz; i++){
+        for(int i=0; i<s.size(); i++){
             if(sta.empty()) sta.push(s[i]);
             else {
                 if(s[i]==sta.top() + 32 || s[i]+32==sta.top()) {
@@ -12,13 +11,13 @@ public:
                 else sta.push(s[i]);
             }
         }
-        string a;
+        s.clear();
         while(!sta.empty()){
             // cout<<sta.top()<<" ";
-            a.push_back(sta.top());
+            s.push_back(sta.top());
             sta.pop();
         }
-        reverse(a.begin(),a.end());
-        return a;
+        reverse(s.begin(),s.end());
+        return s;
     }
 };
