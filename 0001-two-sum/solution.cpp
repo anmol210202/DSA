@@ -1,47 +1,57 @@
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
-        int first_value = -1, last_value = -1;
         int n = nums.size();
-        vector<int> vv(n);
+        vector<int> v(n);
         for(int i = 0; i < n; i++) {
-            vv[i] = nums[i];
+            v[i] = nums[i];
         }
         sort(nums.begin(), nums.end());
-        vector<int> v;
+        int first_posi, second_posi;
+        pair<int, bool> p;
         for(int i = 0; i < n; i++) {
-            int first = 0, last = n - 1;
-            while(first <= last) {
-                int mid = first + ((last - first) / 2);
-                
-                if(nums[mid] + nums[i] == target) {
-                    first_value = nums[i];
-                    last_value = nums[mid];
-                    break;
+            int find_element = target  - nums[i];
+            p = check(n, nums, find_element);
+            if(p.second) {
+                for(int j = 0; j < n; j++) {
+                    if(nums[i] == v[j]) {
+                        first_posi = j;
+                        break;
+                    }
                 }
-                else if(nums[mid] + nums[i] < target) 
-                    first = mid + 1;
-                else 
+                for(int j = n - 1; j >= 0; j--) {
+                    if(p.first == v[j] && j != first_posi) {
+                        second_posi = j;
+                        break;
+                    }
+                }
+                v.clear();
+                v.insert(v.end(),{first_posi,second_posi});
+                sort(v.begin(), v.end());
+                return v;
+            }
+        }
+        return  v;
+    }
+    
+    pair<int, bool> check(int n, vector<int> &nums, int find_element) {
+        pair<int, int> p;
+        int first = 0, last = n - 1;
+        while(first <= last) {
+            int mid = first + ((last - first) / 2);
+            
+            if(nums[mid] == find_element)  {
+                p.first = nums[mid];
+                p.second = true;
+                return p;
+            }
+            else if(nums[mid] > find_element) 
                     last = mid - 1;
-            }
-            if(first_value != -1) {
-                break;
-            }
+            else 
+                    first = mid + 1;
         }
-        
-        for(int i = 0; i < n; i++) {
-            if(first_value == vv[i]) {
-                v.push_back(i);
-                break;
-            }
-        }
-        for(int i = n - 1; i >= 0; i--) {
-            if(last_value == vv[i]) {
-                v.push_back(i);
-                break;
-            }
-        }
-        sort(v.begin(), v.end());
-        return v;
+        p.first = -1;
+        p.second = false;
+        return p;
     }
 };
