@@ -8,7 +8,7 @@
  */
 class Solution {
 public:
-    map<ListNode*,int> m ;
+    unordered_map<ListNode*,int> m ;
     bool hasCycle(ListNode *head) {
         if(head==NULL) return false;
         if(m.find(head)!=m.end()) return true;
