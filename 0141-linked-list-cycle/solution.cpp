@@ -8,11 +8,13 @@
  */
 class Solution {
 public:
-    unordered_map<ListNode*,int> m ;
     bool hasCycle(ListNode *head) {
-        if(head==NULL) return false;
-        if(m.find(head)!=m.end()) return true;
-        else m[head]++;
-        return hasCycle(head->next);
+        ListNode *slow = head, *fast = head;
+        while(slow!=NULL and fast!=NULL and fast->next!=NULL){
+            slow=slow->next;
+            fast=fast->next->next;
+            if(slow==fast) return true;
+        }
+        return false;
     }
 };
