@@ -11,8 +11,9 @@ public:
                     digits[i]=0;
                 } else{
                     digits[i]=0;
-                    digits.push_back(1);
-                    rotate(digits.rbegin(), digits.rbegin() + 1, digits.rend());
+                    digits.insert(digits.begin(),1);
+                    // digits.push_back(1);
+                    // rotate(digits.rbegin(), digits.rbegin() + 1, digits.rend());
                     break;
                 }
             }
