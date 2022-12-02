@@ -2,18 +2,25 @@ class Solution {
 public:
     bool closeStrings(string word1, string word2) {
         int l1 = word1.size() , l2 = word2.size();
-        if(l1!=l2) return false;
-        set<char> s1,s2;
-        vector<int> v1(26,0) , v2(26,0);
-        for(int i=0; i<l1; i++){
-            s1.insert(word1[i]);
-            s2.insert(word2[i]);
-            v1[word1[i]-'a']++;
-            v2[word2[i]-'a']++;
+        if(l1!=l2) return false ;
+        map<char,int> m1,m2;
+        for(l1; l1>0; l1--){
+            m1[word1[l2-l1]]++;
+            m2[word2[l2-l1]]++;
         }
-        sort(v1.begin(),v1.end());
-        sort(v2.begin(),v2.end());
-        if(s1==s2 and v1==v2) return true;
+        vector<char> c,C;
+        vector<int> i,I;
+        for(auto &e:m1){
+            c.push_back(e.first);
+            i.push_back(e.second);
+        }
+        sort(i.begin(),i.end());
+        for(auto &e:m2){
+            C.push_back(e.first);
+            I.push_back(e.second);
+        }
+        sort(I.begin(),I.end());
+        if(c == C and i == I) return true;
         return false;
     }
 };
