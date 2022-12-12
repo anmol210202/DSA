@@ -6,7 +6,6 @@ public:
             if(s[i]==t[j]) i++,j++;
             else j++;
         }
-        cout<<i<<j<<endl;
         if(i==s.size()) return true;
         return false;
     }
