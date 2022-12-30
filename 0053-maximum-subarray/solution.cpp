@@ -1,6 +1,5 @@
 class Solution {
 public:
-    
     int DAC(vector<int>& nums , int s,int e){
         if(s>e) return INT_MIN;
         int ls= 0, rs=0;
@@ -20,5 +19,3 @@ public:
         return DAC(nums,0,size(nums)-1);
     }
 };
-
-
