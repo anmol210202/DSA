@@ -7,6 +7,6 @@ public:
             else {if(nums[i]>nums[i+1]) x++;}
         }
         // cout<<x<<endl;
-        return x==1 or x==0 ?true:false;
+        return x<=1;
     }
 };
