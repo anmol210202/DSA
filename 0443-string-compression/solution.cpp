@@ -10,19 +10,17 @@ public:
                 i=j;
             }
         }
-        //last element
         if(i<s and j==s) vp.push_back(make_pair(c[i],j-i));
-        // for(auto &e:vp){
-        //     cout<<e.first<<' '<<e.second<<endl;
-        // }
         c.clear();
+        int count=0;
         for(auto &e:vp){
             c.push_back(e.first);
+            count++;
             if(e.second!=1){
                 string tmp = to_string(e.second);
-                for(auto &x:tmp) c.push_back(x);
+                for(auto &x:tmp) c.push_back(x),count++;
             }
         }
-        return c.size();
+        return count;
     }
 };
