@@ -1,11 +1,15 @@
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
-        priority_queue<int,vector<int>,greater<int>> q;
-        for(auto &e:nums){
-            if(q.size()<k) q.push(e);
-            else if(q.top()<e) q.pop(),q.push(e);
+        multiset<int> m;
+        for(int i=0;i<nums.size();i++){
+            m.insert(nums[i]);
         }
-        return q.top();
+        for(auto &ip:m){
+            cout<<ip<<" ";
+        }
+        auto it=m.rbegin();
+        advance(it,k-1);
+        return *it;
     }
 };
