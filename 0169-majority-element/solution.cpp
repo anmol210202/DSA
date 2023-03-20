@@ -1,12 +1,18 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        unordered_map<int, int> m;
-        for (int i = 0; i < nums.size(); i++) {
-            m[nums[i]]++;
+        int can=0,c=0;
+        for(auto &e:nums){
+            if(c==0) can=e,c++;
+            else if(e==can) c++;
+            else c--;
         }
-        for(auto it = m.begin(); it != m.end(); it++) 
-            if(it->second >nums.size()/2) return it->first;
-        return 0;
+        // cout<<can<<c;
+        c=0;
+        for(auto &e:nums){
+            if(e==can) c++;
+            if(c>nums.size()/2) return e;
+        }
+        return -1;
     }
 };
