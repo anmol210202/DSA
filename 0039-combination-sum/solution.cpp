@@ -10,7 +10,7 @@ public:
         }
     }
     vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
-        sort(candidates.begin(),candidates.end());
+        // sort(candidates.begin(),candidates.end());
         vector<int> tmp;
         vector<vector<int>> ans;
         r(candidates,0,target,tmp,ans);
