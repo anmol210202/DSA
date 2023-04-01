@@ -1,6 +1,6 @@
 class Solution {
 public:
-    int atMost(vector<int> arr,int k){
+    int atMost(vector<int> &arr,int k){
         int l=0,c=0;
         unordered_map<int,int> m;
         for(int r=0;r<arr.size();r++){
