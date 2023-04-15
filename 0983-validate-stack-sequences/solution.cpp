@@ -7,6 +7,7 @@ public:
             s.push(e);
             while(!s.empty() and s.top()==popped[i]) s.pop(), i++;
         }
-        return s.empty();
+        return i==popped.size();
+        // return s.empty()
     }
 };
