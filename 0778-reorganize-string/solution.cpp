@@ -15,15 +15,18 @@ private:
     
 public:
     string reorganizeString(string s) {
-        unordered_map<char, int> charCount;
+        int charCount[26] = {0}; // Assuming input contains only lowercase letters
+        
         for (char c : s) {
-            charCount[c]++;
+            charCount[c - 'a']++;
         }
         
         priority_queue<CharFrequency, vector<CharFrequency>, Compare> maxHeap;
         
-        for (auto& entry : charCount) {
-            maxHeap.push(CharFrequency(entry.first, entry.second));
+        for (int i = 0; i < 26; ++i) {
+            if (charCount[i] > 0) {
+                maxHeap.push(CharFrequency('a' + i, charCount[i]));
+            }
         }
         
         string result = "";
