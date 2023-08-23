@@ -1,58 +1,42 @@
 class Solution {
-private:
-    struct CharFrequency {
-        char character;
-        int frequency;
-        
-        CharFrequency(char c, int f) : character(c), frequency(f) {}
-    };
-    
-    struct Compare {
-        bool operator()(const CharFrequency& a, const CharFrequency& b) {
-            return a.frequency < b.frequency;
-        }
-    };
-    
 public:
     string reorganizeString(string s) {
-        int charCount[26] = {0}; // Assuming input contains only lowercase letters
+        int charCount[26] = {0}; // Array to store character frequencies
+        int maxFreq = 0;
+        char maxChar = 'a';
         
         for (char c : s) {
             charCount[c - 'a']++;
-        }
-        
-        priority_queue<CharFrequency, vector<CharFrequency>, Compare> maxHeap;
-        
-        for (int i = 0; i < 26; ++i) {
-            if (charCount[i] > 0) {
-                maxHeap.push(CharFrequency('a' + i, charCount[i]));
+            if (charCount[c - 'a'] > maxFreq) {
+                maxFreq = charCount[c - 'a'];
+                maxChar = c;
             }
         }
         
-        string result = "";
-        while (!maxHeap.empty()) {
-            CharFrequency first = maxHeap.top();
-            maxHeap.pop();
-            
-            if (result.empty() || result.back() != first.character) {
-                result += first.character;
-                if (--first.frequency > 0) {
-                    maxHeap.push(first);
+        int n = s.size();
+        if (maxFreq > (n + 1) / 2) {
+            return ""; // Not possible to rearrange
+        }
+        
+        string result(n, ' ');
+        int idx = 0;
+        
+        // Fill even indices first
+        while (charCount[maxChar - 'a'] > 0) {
+            result[idx] = maxChar;
+            idx += 2;
+            charCount[maxChar - 'a']--;
+        }
+        
+        // Fill remaining indices
+        for (int i = 0; i < 26; ++i) {
+            while (charCount[i] > 0) {
+                if (idx >= n) {
+                    idx = 1; // Start filling odd indices
                 }
-            } else {
-                if (maxHeap.empty()) {
-                    return ""; // Not possible to rearrange
-                }
-                
-                CharFrequency second = maxHeap.top();
-                maxHeap.pop();
-                
-                result += second.character;
-                if (--second.frequency > 0) {
-                    maxHeap.push(second);
-                }
-                
-                maxHeap.push(first); // Put the first character back to the heap
+                result[idx] = 'a' + i;
+                idx += 2;
+                charCount[i]--;
             }
         }
         
