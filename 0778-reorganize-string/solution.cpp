@@ -1,4 +1,18 @@
 class Solution {
+private:
+    struct CharFrequency {
+        char character;
+        int frequency;
+        
+        CharFrequency(char c, int f) : character(c), frequency(f) {}
+    };
+    
+    struct Compare {
+        bool operator()(const CharFrequency& a, const CharFrequency& b) {
+            return a.frequency < b.frequency;
+        }
+    };
+    
 public:
     string reorganizeString(string s) {
         unordered_map<char, int> charCount;
@@ -6,24 +20,20 @@ public:
             charCount[c]++;
         }
         
-        auto cmp = [](pair<char, int>& a, pair<char, int>& b) {
-            return a.second < b.second;
-        };
-        
-        priority_queue<pair<char, int>, vector<pair<char, int>>, decltype(cmp)> maxHeap(cmp);
+        priority_queue<CharFrequency, vector<CharFrequency>, Compare> maxHeap;
         
         for (auto& entry : charCount) {
-            maxHeap.push(entry);
+            maxHeap.push(CharFrequency(entry.first, entry.second));
         }
         
         string result = "";
         while (!maxHeap.empty()) {
-            pair<char, int> first = maxHeap.top();
+            CharFrequency first = maxHeap.top();
             maxHeap.pop();
             
-            if (result.empty() || result.back() != first.first) {
-                result += first.first;
-                if (--first.second > 0) {
+            if (result.empty() || result.back() != first.character) {
+                result += first.character;
+                if (--first.frequency > 0) {
                     maxHeap.push(first);
                 }
             } else {
@@ -31,11 +41,11 @@ public:
                     return ""; // Not possible to rearrange
                 }
                 
-                pair<char, int> second = maxHeap.top();
+                CharFrequency second = maxHeap.top();
                 maxHeap.pop();
                 
-                result += second.first;
-                if (--second.second > 0) {
+                result += second.character;
+                if (--second.frequency > 0) {
                     maxHeap.push(second);
                 }
                 
