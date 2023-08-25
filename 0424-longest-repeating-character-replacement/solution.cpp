@@ -1,26 +1,18 @@
 class Solution {
 public:
     int characterReplacement(string s, int k) {
-        int n = s.size();
-        int maxCount = 0; // Tracks the maximum count of a character in the sliding window
-        int maxLength = 0; // Tracks the maximum length of the valid substring
-        vector<int> charCount(26, 0); // Count of each character
-        
-        int start = 0; // Start of the sliding window
+        int n=s.size(), start = 0 , maxLength = 0 , maxCount=0;
+        map<char,int> m;
+        for(int end=0; end<n; end++){
+            m[s[end]]++;
+            maxCount = max(maxCount , m[s[end]]);
 
-        for (int end = 0; end < n; ++end) {
-            charCount[s[end] - 'A']++; // Increment the count of the current character
-            maxCount = max(maxCount, charCount[s[end] - 'A']); // Update maxCount
-            
-            // Check if we need to shrink the window
-            while (end - start + 1 - maxCount > k) {
-                charCount[s[start] - 'A']--; // Decrement the count of the character at the start
-                start++; // Move the start of the window
+            while(end - start + 1 - maxCount > k){
+                m[s[start]]--;
+                start++;
             }
-            
-            maxLength = max(maxLength, end - start + 1); // Update maxLength
+            maxLength = max(maxLength , end - start + 1);
         }
-        
         return maxLength;
     }
 };
