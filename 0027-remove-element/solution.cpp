@@ -1,17 +1,8 @@
 class Solution {
 public:
     int removeElement(vector<int>& nums, int val) {
-        int k = 0; // Initialize a pointer for the new array without val
-        
-        for (int i = 0; i < nums.size(); i++) {
-            if (nums[i] != val) {
-                if (i != k) {
-                    swap(nums[k], nums[i]);
-                }
-                k++;
-            }
-        }
-        
+        int k=0;
+        for(int i=0; i<nums.size(); i++) if(nums[i]!=val) swap(nums[i],nums[k++]);
         return k;
     }
 };
