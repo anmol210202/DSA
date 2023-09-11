@@ -1,17 +1,16 @@
 class Solution {
 public:
     int majorityElement(vector<int>& nums) {
-        int can=0,c=0;
+        int can = 0 , c = 0 , n=nums.size();
         for(auto &e:nums){
-            if(c==0) can=e,c++;
-            else if(e==can) c++;
+            if(c == 0 ) can = e, c++;
+            else if( can == e) c++;
             else c--;
         }
-        // cout<<can<<c;
         c=0;
         for(auto &e:nums){
-            if(e==can) c++;
-            if(c>nums.size()/2) return e;
+            if(can==e) c++;
+            if(n/2<c) return can ;
         }
         return -1;
     }
