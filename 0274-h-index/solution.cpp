@@ -5,12 +5,29 @@ public:
         return a>b;
     }
     int hIndex(vector<int>& citations) {
-        sort(citations.begin(),citations.end(),cmp);
+        // sorting app
+
+        // sort(citations.begin(),citations.end(),cmp);
         int hIndex=0, n=citations.size();
+        // for(auto &e:citations){
+        //     if(e>hIndex) hIndex++;
+        //     else return hIndex;
+        // }
+        // return hIndex;
+
+        // counting sort app
+
+        vector<int> v(n+1,0);
+
         for(auto &e:citations){
-            if(e>hIndex) hIndex++;
-            else return hIndex;
+            if(e>=n) v[n]++;
+            else v[e]++;
         }
-        return hIndex;
+
+        for(int i=n ; i>=0; i--){
+            hIndex +=v[i];
+            if(hIndex >= i) return i;
+        }
+        return 0;
     }
 };
