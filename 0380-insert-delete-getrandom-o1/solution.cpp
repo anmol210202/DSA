@@ -1,6 +1,6 @@
 class RandomizedSet {
 public:
-    set<int> mySet;
+    unordered_set<int> mySet;
     //constructor
     RandomizedSet() {
         
@@ -25,9 +25,7 @@ public:
     int getRandom() {
         int n= rand()%mySet.size();
         auto it =mySet.begin();
-        for(int i=0; i<n; i++){
-            it++;
-        }
+        advance(it,n);
         return *it;
     }
 };
