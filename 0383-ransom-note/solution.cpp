@@ -1,13 +1,18 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<char,int> m;
-        for(auto &e:magazine) m[e]++;
-        for(auto &e:ransomNote){
-            if(m.find(e)!=m.end() and m[e]>0){
-                m[e]--;
-            }else return false;
+        unordered_map<int,int> um;
+
+        for(auto &e:magazine) um[e]++;
+
+        for(auto &e:ransomNote) {
+            if(um.find(e)!=um.end() and um[e]>0){
+                um[e]--;
+                
+            } 
+            else return false;
         }
+
         return true;
     }
 };
