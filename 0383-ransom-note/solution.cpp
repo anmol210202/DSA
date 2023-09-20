@@ -1,18 +1,21 @@
 class Solution {
 public:
     bool canConstruct(string ransomNote, string magazine) {
-        unordered_map<int,int> um;
+        vector<int> magazineCount(26, 0); // Initialize an array to count character frequencies in the magazine.
+        
+        for (char c : magazine) {
+            magazineCount[c - 'a']++;
+        }
 
-        for(auto &e:magazine) um[e]++;
-
-        for(auto &e:ransomNote) {
-            if(um.find(e)!=um.end() and um[e]>0){
-                um[e]--;
-                
-            } 
-            else return false;
+        for (char c : ransomNote) {
+            if (magazineCount[c - 'a'] > 0) {
+                magazineCount[c - 'a']--;
+            } else {
+                return false;
+            }
         }
 
         return true;
     }
 };
+
