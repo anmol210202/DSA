@@ -1,14 +1,22 @@
 class Solution {
 public:
     vector<vector<int>> merge(vector<vector<int>>& in) {
-        sort(in.begin(),in.end());
-        int n=in.size(),x=in[0][0],y=in[0][1];
-        vector<vector<int>> v;
+        sort(in.begin(), in.end());
+        int n = in.size();
+        vector<vector<int>> vv;
+        if(n==0) return vv;
+        int s=in[0][0],e=in[0][1];
+
         for(int i=1; i<n; i++){
-            if(y<in[i][0]) v.push_back({x,y}), x=in[i][0] ,y=in[i][1];
-            else y=max(y,max(in[i-1][1],in[i][1]));
+            if(in[i][0]<=e){
+                e=max(e,in[i][1]);
+            } else {
+                vv.push_back({s,e});
+                s=in[i][0],e=max(e,in[i][1]);
+            }
         }
-        v.push_back({x,y});
-        return v;
+        vv.push_back({s,e});
+
+        return vv;   
     }
 };
