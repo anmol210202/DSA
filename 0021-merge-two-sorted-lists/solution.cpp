@@ -16,26 +16,27 @@ public:
 
         while(list1!=NULL or list2!=NULL){
             if(list1==NULL){
-                ListNode* temp = new ListNode(list2->val);
-                tail->next = temp;
-                tail=tail->next;
+                // ListNode* temp = new ListNode(list2->val);
+                tail->next = list2;
+                // tail=tail->next;
                 list2= list2->next;
             } else if( list2==NULL){
-                ListNode* temp = new ListNode(list1->val);
-                tail->next = temp;
-                tail=tail->next;
+                // ListNode* temp = new ListNode(list1->val);
+                tail->next = list1;
+                // tail=tail->next;
                 list1=list1->next;
             } else if (list1->val > list2->val){
-                ListNode* temp = new ListNode(list2->val);
-                tail->next = temp;
-                tail=tail->next;
+                // ListNode* temp = new ListNode(list2->val);
+                tail->next = list2;
+                // tail=tail->next;
                 list2=list2->next;
             } else {
-                ListNode* temp = new ListNode(list1->val);
-                tail->next = temp;
-                tail=tail->next;
+                // ListNode* temp = new ListNode(list1->val);
+                tail->next = list1;
+                // tail=tail->next;
                 list1=list1->next;
             }
+            tail = tail->next;
         }
 
         return res->next;
