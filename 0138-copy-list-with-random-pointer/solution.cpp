@@ -28,9 +28,13 @@ public:
         }
 
         curr = head;
+        
 
         while(curr!=NULL){
-             if(curr->random) curr->next->random = curr->random->next;
+             if(curr->random){
+                curr->next->random = curr->random->next;
+                cout<<curr->random->next->val<<endl;
+             }
              curr = curr->next->next;
         }
 
