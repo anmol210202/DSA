@@ -26,11 +26,9 @@ public:
         c=0;
         while(c<right-left){
             ListNode* nxt = curr->next;
-            // if(curr!=NULL and nxt!=NULL and prev!=NULL){
             curr->next = nxt->next;
             nxt->next = prev->next;
             prev->next = nxt;
-            // }
             c++;
         }
         
