@@ -11,26 +11,27 @@
  */
 class Solution {
 public:
-    int ans = 0;
+    // int ans = 0;
 
-    void traverse(TreeNode* root , int num){
+    void traverse(TreeNode* root , int num , int &ans){
         if(!root->left and !root->right){
             ans+=num*10+root->val;
             return ;
         }
 
         if(root->left){
-            traverse(root->left , num*10 + root->val);
+            traverse(root->left , num*10 + root->val ,ans);
         }
         if(root->right){
-            traverse(root->right , num*10 + root->val);
+            traverse(root->right , num*10 + root->val , ans);
         }
         return ;
     }
     
     int sumNumbers(TreeNode* root) {
+        int ans = 0;
         if(!root) return ans;
-        traverse(root,0);
+        traverse(root,0,ans);
         return ans;
     }
 };
