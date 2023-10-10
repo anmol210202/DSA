@@ -11,16 +11,23 @@
  */
 class Solution {
 public:
-    bool hasPathSum(TreeNode* root, int targetSum) {
-        
-        if(root == NULL)
+
+    bool traverse(TreeNode* root,int targetSum){
+        if(!root->left and !root->right){
+            if(targetSum - root->val == 0) return true;
             return false;
-        
-              if( root->right==NULL && root->left==NULL && targetSum==root->val) return true;
-     
-     
-        
-        return hasPathSum(root->left,targetSum-root->val) || hasPathSum(root->right,targetSum-root->val);
-        
+        }
+        if(root->left){
+            if(traverse(root->left,targetSum-root->val)) return true;
+        }
+        if(root->right){
+            if(traverse(root->right,targetSum-root->val)) return true;
+        }
+        return false;
+    }
+
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(!root) return false;
+        return traverse(root,targetSum);
     }
 };
