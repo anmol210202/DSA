@@ -11,20 +11,23 @@
  */
 class Solution {
 public:
-    void traverse(TreeNode* root, vector<int> &v, map<int,bool> &m , int height){
+    void traverse(TreeNode* root , vector<int> &v , unordered_set<int> &us , int h){
         if(!root) return ;
-        if(m.find(height)==m.end()){
-            m[height]=true;
+        if(us.find(h)==us.end()){
             v.push_back(root->val);
+            us.insert(h);
         }
-        traverse(root->right , v , m , height+1);
-        traverse(root->left , v , m , height+1);
+
+        // TreeNode *l ,*r;
+
+        traverse(root->right,v,us,h+1);
+        traverse(root->left,v,us,h+1);
     }
 
     vector<int> rightSideView(TreeNode* root) {
         vector<int> v;
-        map<int,bool> m;
-        traverse(root,v,m , 1);
+        unordered_set<int> us;
+        traverse(root,v,us,1);
         return v;
     }
 };
