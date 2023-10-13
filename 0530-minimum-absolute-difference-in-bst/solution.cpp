@@ -19,6 +19,7 @@ public:
         if(!root) return ;
 
         traverse(root->left , minVal,prev);
+        // yaad karo isse 
         if(prev!=-1){
             minVal = min(minVal , root->val - prev);
         }
