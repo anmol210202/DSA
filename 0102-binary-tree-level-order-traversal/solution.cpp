@@ -11,24 +11,30 @@
  */
 class Solution {
 public:
-    int hFind(TreeNode* root){
-        if(!root) return 0;
-        int l=hFind(root->left);
-        int r=hFind(root->right);
-        return 1+(l>r ?l:r);
-    }
-    
-    void fVector(TreeNode* root ,vector<vector<int>> &v , int h ,int curr=0){
-        if(!root || curr>h) return ;
-        v[curr].push_back(root->val);
-        fVector(root->left,v,h,curr+1);
-        fVector(root->right,v,h,curr+1);
-    }
-    
     vector<vector<int>> levelOrder(TreeNode* root) {
-        int height = hFind(root);
-        vector<vector<int>> v(height);
-        fVector(root,v,height-1);
-        return v;
+        vector<vector<int>> vv;
+        vector<int> v;
+        queue<TreeNode*> q;
+
+        if(!root) return vv;
+        q.push(root);
+        q.push(NULL); /// detection of levels
+
+        while(!q.empty()){
+            TreeNode *curr = q.front();
+            q.pop();
+
+            if(curr==NULL){
+                // level crosed
+                vv.push_back(v);
+                v.clear();
+                if(!q.empty()) q.push(NULL);
+            } else {
+                v.push_back(curr->val);
+                if(curr->left) q.push(curr->left);
+                if(curr->right) q.push(curr->right); 
+            }
+        }
+        return vv;
     }
 };
