@@ -11,23 +11,26 @@
  */
 class Solution {
 public:
-    TreeNode* ans;
-    void traverse(TreeNode* root ,int &k){
-        if(root==NULL || k==0){
-            return;
+    int ans = 0;
+
+    void traverse(TreeNode* root , int &k){
+        if(!root) return ;
+        if(k==0){
+            ans = root->val;
+            return ;
         }
-        traverse(root->left,k);
+
+        traverse(root->left , k);
         k--;
         if(k==0){
-            ans=root;
-            return;
+            ans = root->val;
+            return ;
         }
-        traverse(root->right,k);
+        traverse(root->right , k);
     }
 
     int kthSmallest(TreeNode* root, int k) {
-        ans=NULL;
         traverse(root,k);
-        return ans->val;
+        return ans;
     }
 };
