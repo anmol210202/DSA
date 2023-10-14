@@ -40,10 +40,10 @@ public:
     Node* cloneGraph(Node* node) {
         map<Node* , Node*> m;
         if(node == NULL) return NULL;
-        if(node->neighbors.size()==0){
-            Node* tmp = new Node(node->val);
-            return tmp;
-        }
+        // if(node->neighbors.size()==0){
+        //     Node* tmp = new Node(node->val);
+        //     return tmp;
+        // }
         return dfs(node , m);
     }
 };
