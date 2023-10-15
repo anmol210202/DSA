@@ -41,10 +41,6 @@ public:
 
     Node* cloneGraph(Node* node) {
         if(!node) return NULL;
-        if(node->neighbors.empty()) {
-            Node* tmp = new Node(node->val);
-            return tmp;
-        }
         unordered_map<Node*, Node*> um;
         return dfs(node , um);
 
