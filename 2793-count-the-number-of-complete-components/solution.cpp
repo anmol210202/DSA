@@ -1,56 +1,68 @@
 class Solution {
 public:
+    // Since n <= 50, we can use fixed-size arrays.
+    int parent[55], compSize[55], compEdges[55];
+    
+    // Iterative find with path halving.
+    int find(int x) {
+        while (parent[x] != x) {
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+    
+    // Union by size (compSize) and merge edge counts.
+    void unionSet(int x, int y) {
+        int rx = find(x), ry = find(y);
+        if (rx == ry)
+            return;
+        // Ensure rx is the larger component.
+        if (compSize[rx] < compSize[ry]) {
+            swap(rx, ry);
+        }
+        parent[ry] = rx;
+        compSize[rx] += compSize[ry];
+        compEdges[rx] += compEdges[ry];
+    }
+    
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
-        vector<int> parent(n), size(n, 1), edgeCount(n, 0);
-        iota(parent.begin(), parent.end(), 0);
-        
-        // Find with path compression.
-        function<int(int)> find = [&](int x) -> int {
-            return parent[x] == x ? x : parent[x] = find(parent[x]);
-        };
-        
-        // Union by size, merging edge counts as well.
-        auto unionSet = [&](int a, int b) -> int {
-            a = find(a), b = find(b);
-            if (a == b)
-                return a;
-            if (size[a] < size[b]) 
-                swap(a, b);
-            parent[b] = a;
-            size[a] += size[b];
-            edgeCount[a] += edgeCount[b];
-            return a;
-        };
+        // Initialize DSU structures.
+        for (int i = 0; i < n; ++i) {
+            parent[i] = i;
+            compSize[i] = 1;
+            compEdges[i] = 0;
+        }
         
         // Process each edge.
-        for (const auto &edge : edges) {
-            int u = edge[0], v = edge[1];
+        for (int i = 0; i < edges.size(); ++i) {
+            int u = edges[i][0], v = edges[i][1];
             int ru = find(u), rv = find(v);
             if (ru == rv) {
-                // The edge is within the same component.
-                edgeCount[ru]++;
+                // Edge within the same component.
+                compEdges[ru]++;
             } else {
-                // Merge the two components and count the edge.
-                int newRoot = unionSet(ru, rv);
-                edgeCount[newRoot]++;
+                // Merge the two components and then add the edge.
+                unionSet(ru, rv);
+                int rnew = find(u);
+                compEdges[rnew]++;
             }
         }
         
-        // Count complete components.
-        // A component with m nodes must have m*(m-1)/2 edges to be complete.
-        vector<bool> visited(n, false);
-        int completeComponents = 0;
-        for (int i = 0; i < n; i++) {
-            int root = find(i);
-            if (!visited[root]) {
-                visited[root] = true;
-                int m = size[root];
-                // For an isolated vertex, m = 1 and expected edge count is 0.
-                if (edgeCount[root] == m * (m - 1) / 2)
-                    completeComponents++;
+        // Mark visited roots and count complete components.
+        bool visited[55] = { false };
+        int ans = 0;
+        for (int i = 0; i < n; ++i) {
+            int r = find(i);
+            if (!visited[r]) {
+                visited[r] = true;
+                int m = compSize[r];
+                // A complete graph with m nodes has m*(m-1)/2 edges.
+                if (compEdges[r] == m * (m - 1) / 2)
+                    ans++;
             }
         }
-        return completeComponents;
+        return ans;
     }
 };
 
