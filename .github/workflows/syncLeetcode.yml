@@ -26,19 +26,20 @@ jobs:
           commit-header: "[Sync]:"  # Customized commit header
 
       # Step 3: Rename solution files to include a timestamp for uniqueness
-      - name: Rename Files for Uniqueness
+      - name: Rename Files with Readable Timestamp
         run: |
-          # List of file extensions to process (add or remove as needed)
-          for ext in cpp py js java ts rb go cs swift kt; do
-            # Loop through files matching the extension in the current directory
-            for file in *.$ext; do
-              # If no file found matching the pattern, skip to next iteration
-              [ -e "$file" ] || continue
-              # Check if the file does not already include an underscore (indicating a timestamp)
-              if [[ "$file" != *_* ]]; then
-                base=$(basename "$file" ."$ext")
-                # Rename the file by appending the current Unix timestamp
-                mv "$file" "${base}_$(date +%s).$ext"
-              fi
+          # Loop through each problem directory
+          for dir in */; do
+            # Loop through files that start with "solution." regardless of extension
+            for file in "$dir"solution.*; do
+              # If no matching file exists, continue to next iteration
+              [ -f "$file" ] || continue
+              # Extract the file extension using parameter expansion
+              ext="${file##*.}"
+              # Generate a readable timestamp, e.g., 2025-03-23_08-00-00
+              timestamp=$(date "+%Y-%m-%d_%H-%M-%S")
+              # Rename the file to include the timestamp
+              mv "$file" "${dir}solution_${timestamp}.${ext}"
             done
           done
+
