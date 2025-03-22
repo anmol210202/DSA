@@ -1,9 +1,9 @@
 class Solution {
 public:
-    static const int MAXN = 55;
-    int parent[MAXN], sizeArr[MAXN], edgesArr[MAXN];
-    
-    // Inline find function with path halving.
+    static const int N = 55;  // n <= 50, a few extras for safety
+    int parent[N], sz[N], ed[N];
+
+    // Force inline find with path halving.
     inline __attribute__((always_inline)) int find(int x) {
         while (parent[x] != x) {
             parent[x] = parent[parent[x]];
@@ -11,56 +11,45 @@ public:
         }
         return x;
     }
-    
-    // Inline union function that merges by size and aggregates edge counts.
-    inline __attribute__((always_inline)) void unionSet(int x, int y) {
-        int rx = find(x), ry = find(y);
-        if (rx == ry) return;
-        if (sizeArr[rx] < sizeArr[ry]) {
-            parent[rx] = ry;
-            sizeArr[ry] += sizeArr[rx];
-            edgesArr[ry] += edgesArr[rx];
+
+    // Force inline union by size, merging edge counts.
+    inline __attribute__((always_inline)) void unionSet(int a, int b) {
+        a = find(a), b = find(b);
+        if (a == b) return;
+        if (sz[a] < sz[b]) {
+            parent[a] = b;
+            sz[b] += sz[a];
+            ed[b] += ed[a];
         } else {
-            parent[ry] = rx;
-            sizeArr[rx] += sizeArr[ry];
-            edgesArr[rx] += edgesArr[ry];
+            parent[b] = a;
+            sz[a] += sz[b];
+            ed[a] += ed[b];
         }
     }
-    
+
     int countCompleteComponents(int n, vector<vector<int>>& edges) {
         // DSU initialization.
         for (int i = 0; i < n; ++i) {
             parent[i] = i;
-            sizeArr[i] = 1;
-            edgesArr[i] = 0;
+            sz[i] = 1;
+            ed[i] = 0;
         }
-        
-        int m = edges.size();
         // Process each edge.
-        for (int i = 0; i < m; ++i) {
+        for (int i = 0, m = edges.size(); i < m; ++i) {
             int u = edges[i][0], v = edges[i][1];
             int ru = find(u), rv = find(v);
             if (ru == rv) {
-                edgesArr[ru]++;
+                ed[ru]++;
             } else {
                 unionSet(ru, rv);
-                edgesArr[find(u)]++;
+                ed[find(u)]++;
             }
         }
-        
-        // Final path compression.
-        for (int i = 0; i < n; ++i)
-            find(i);
-        
+        // Count components that are complete (edge count must equal sz*(sz-1)/2).
         int ans = 0;
-        // Instead of a visited array, we check for components by verifying if the node is its own parent.
-        for (int i = 0; i < n; ++i) {
-            if (parent[i] == i) {
-                int s = sizeArr[i];
-                if (edgesArr[i] == s * (s - 1) / 2)
-                    ans++;
-            }
-        }
+        for (int i = 0; i < n; ++i)
+            if (find(i) == i && ed[i] == sz[i] * (sz[i] - 1) / 2)
+                ans++;
         return ans;
     }
 };
