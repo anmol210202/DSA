@@ -3,7 +3,7 @@ name: LeetCode Sync
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 8 * * *"  # Runs daily at 8 AM; adjust as needed
+    - cron: "0 8 * * 6"  # Runs daily at 8 AM; adjust as needed
 
 jobs:
   build:
@@ -15,8 +15,8 @@ jobs:
         uses: actions/checkout@v3
 
       # Step 2: Run the LeetCode Sync action
-      - name: Sync LeetCode Submissions
-        uses: joshcai/leetcode-sync@v1.7
+      - name: Sync 
+        uses: anmol210202/leetcode-sync@v1.7
         with:
           github-token: ${{ github.token }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
