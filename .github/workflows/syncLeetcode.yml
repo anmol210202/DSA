@@ -16,7 +16,7 @@ jobs:
 
       # Step 2: Run the LeetCode Sync action
       - name: Sync 
-        uses: anmol210202/leetcode-sync@master
+        uses: joshcai/leetcode-sync@v1.7
         with:
           github-token: ${{ github.token }}
           leetcode-csrf-token: ${{ secrets.LEETCODE_CSRF_TOKEN }}
