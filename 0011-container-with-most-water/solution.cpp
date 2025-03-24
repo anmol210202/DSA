@@ -8,9 +8,13 @@ public:
         while(i<j){
             ans = max(ans,min(height[i],height[j])*(j-i));
             if(height[i]<=height[j]){
-                i++;
+                int currLeft=height[i];
+                while(i<j and currLeft>=height[i]) i++;
+                // i++;
             } else {
-                j--;
+                int currRight = height[j];
+                while(i<j and currRight>=height[j]) j--;
+                // j--;
             }
         }
         return ans;
