@@ -11,20 +11,20 @@
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        ListNode* zeroNode = new ListNode(0);
-        zeroNode->next = head;
+        ListNode zeroNode(0);
+        zeroNode.next = head;  //()
 
-        ListNode* curr = zeroNode;
+        ListNode* curr = &zeroNode;    // we need pointer 
         while(curr->next && curr->next->next){
             ListNode *fir = curr->next;
             ListNode *sec = curr->next->next;
             
             fir->next = sec->next;
-            sec->next = fir;
+            sec->next = fir;   // *sec.next = fir
             curr->next = sec;
             curr = fir;
         }
 
-        return zeroNode->next;
+        return zeroNode.next;
     }
 };
