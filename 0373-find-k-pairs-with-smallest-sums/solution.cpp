@@ -3,7 +3,7 @@ public:
     vector<vector<int>> kSmallestPairs(vector<int>& nums1, vector<int>& nums2, int k) {
         priority_queue<tuple<int, int, int> ,vector<tuple<int, int, int>> , greater<tuple<int, int, int>>> maxHeap;
 
-        for(int i=0; i<nums1.size(); i++){
+        for(int i=0; i<min((int)nums1.size(),k); i++){      // instead of nums1.size() we will have k
             maxHeap.push({nums1[i]+nums2[0],i,0});
         }
         vector<vector<int>> ans;
