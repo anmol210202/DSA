@@ -13,13 +13,12 @@ class Solution {
 private:
     void inorder(TreeNode* node,int &ans, int &k){
         if(!node) return ;
-        if(node->left) inorder(node->left,ans,k);
-        k--;
-        if(k==0){
+        inorder(node->left,ans,k);
+        if(--k==0){
         ans = node->val;
             return ;
         }
-        if(node->right) inorder(node->right,ans,k);
+        inorder(node->right,ans,k);
         }
 
 public:
