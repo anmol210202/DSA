@@ -10,27 +10,22 @@
  * };
  */
 class Solution {
-public:
-    int ans = 0;
-
-    void traverse(TreeNode* root , int &k){
-        if(!root) return ;
-        if(k==0){
-            ans = root->val;
-            return ;
-        }
-
-        traverse(root->left , k);
+private:
+    void inorder(TreeNode* node,int &ans, int &k){
+        if(!node) return ;
+        if(node->left) inorder(node->left,ans,k);
         k--;
         if(k==0){
-            ans = root->val;
+        ans = node->val;
             return ;
         }
-        traverse(root->right , k);
-    }
+        if(node->right) inorder(node->right,ans,k);
+        }
 
+public:
     int kthSmallest(TreeNode* root, int k) {
-        traverse(root,k);
+        int ans = 0;
+        inorder(root,ans,k);
         return ans;
     }
 };
